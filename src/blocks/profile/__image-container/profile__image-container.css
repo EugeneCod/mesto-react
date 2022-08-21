@@ -9,6 +9,9 @@
   align-items: center;
   justify-items: center;
   transition: opacity .2s ease-out;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 } 
 
 .profile__image-container:hover {
