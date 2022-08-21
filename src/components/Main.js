@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import addIcon from '../images/profile__add-icon.svg';
 import editIcon from '../images/profile__edit-icon.svg';
 import api from '../utils/api';
@@ -10,7 +10,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
   const [userAvatar, setUserAvatar] = useState('');
   const [cards, setCards] = useState([])
 
-  React.useEffect(() => {
+  useEffect(() => {
     Promise.all([
       api.getUserInfo(),
       api.getCards(),
