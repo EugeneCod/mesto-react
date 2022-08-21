@@ -63,12 +63,12 @@ function App() {
             onClose={closeAllPopups}
           >
             <label className="editing-form__field">
-              <input type="text" name="name" id="name" placeholder="Имя" required minlength="2" maxlength="40"
+              <input type="text" name="name" id="name" placeholder="Имя" required minLength="2" maxLength="40"
                 className="editing-form__input-line editing-form__input-line_assignment_user-name" />
               <span className="editing-form__input-error editing-form__input-error_for_name"></span>
             </label>
             <label className="editing-form__field">
-              <input type="text" name="about" id="about-self" placeholder="О себе" required minlength="2" maxlength="200"
+              <input type="text" name="about" id="about-self" placeholder="О себе" required minLength="2" maxLength="200"
                 className="editing-form__input-line editing-form__input-line_assignment_about-self" />
               <span className="editing-form__input-error editing-form__input-error_for_about-self"></span>
             </label>
@@ -80,8 +80,8 @@ function App() {
             onClose={closeAllPopups}
           >
             <label className="editing-form__field">
-              <input type="text" name="name" id="location" placeholder="Название" required minlength="2"
-                maxlength="30" className="editing-form__input-line editing-form__input-line_assignment_location" />
+              <input type="text" name="name" id="location" placeholder="Название" required minLength="2"
+                maxLength="30" className="editing-form__input-line editing-form__input-line_assignment_location" />
               <span className="editing-form__input-error editing-form__input-error_for_location"></span>
             </label>
             <label className="editing-form__field">

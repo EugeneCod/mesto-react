@@ -8,7 +8,7 @@ function PopupWithForm({ children, title, name, isOpen, onClose }) {
         <button onClick={onClose} type="button" className="popup__close-button">
           <img src={closeIcon} alt="Закрыть" className="popup__close-icon" />
         </button>
-        <form novalidate name={name} className={`editing-form editing-form_related-to_${name}`}
+        <form noValidate name={name} className={`editing-form editing-form_related-to_${name}`}
           id={name} method="get">
           <fieldset className="editing-form__fieldset" form={name}>
             <legend className="editing-form__legend">{title}

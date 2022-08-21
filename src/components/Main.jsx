@@ -7,16 +7,23 @@ function Main({onEditAvatar, onEditProfile, onAddPlace }) {
   const [userName, setUserName] = useState('');
   const [userDescription , setUserDescription ] = useState('');
   const [userAvatar, setUserAvatar] = useState('');
+  const [cards, setCards] = useState([])
+  console.log(cards);
 
   React.useEffect(() => {
-    api.getUserInfo()
-    .then((res) => {
-      setUserName(res.name);
-      setUserDescription(res.about);
-      setUserAvatar(res.avatar);
+    Promise.all([
+      api.getUserInfo(),
+      api.getCards(),
+    ])
+    .then(([userData, cardsData]) => {
+      setUserName(userData.name);
+      setUserDescription(userData.about);
+      setUserAvatar(userData.avatar);
+
+      setCards(cardsData)
     })
     .catch(err => console.log(`${err} при первичной загрузке данных`));
-  }, userName, userDescription, userAvatar)
+  }, [userName, userDescription, userAvatar])
 
   return (
     <main className="content">
@@ -41,9 +48,23 @@ function Main({onEditAvatar, onEditProfile, onAddPlace }) {
         </button>
       </section>
       <ul className="elements">
+        {cards.map((card) => (
+          <li key={card._id} className="elements__element">
+            <div className="elements__image"
+              style={{ backgroundImage: `url(${card.link})` }}
+            />
+            <p className="elements__location">{card.name}</p>
+            <div className="elements__button-like-container">
+              <button type="button" className="elements__button-like"></button>
+              <p className="elements__likes-counter">{card.likes.length}</p>
+            </div>
+            <button type="button" className="elements__button-delete"></button>
+          </li> 
+        ))}
       </ul>
     </main>
   )
 }
 
 export default Main
+
