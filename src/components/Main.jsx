@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import addIcon from '../images/profile__add-icon.svg';
 import editIcon from '../images/profile__edit-icon.svg';
-import api from '../utils/api'
+import api from '../utils/api';
+import Card from './Card';
 
 function Main({onEditAvatar, onEditProfile, onAddPlace }) {
   const [userName, setUserName] = useState('');
@@ -49,17 +50,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace }) {
       </section>
       <ul className="elements">
         {cards.map((card) => (
-          <li key={card._id} className="elements__element">
-            <div className="elements__image"
-              style={{ backgroundImage: `url(${card.link})` }}
-            />
-            <p className="elements__location">{card.name}</p>
-            <div className="elements__button-like-container">
-              <button type="button" className="elements__button-like"></button>
-              <p className="elements__likes-counter">{card.likes.length}</p>
-            </div>
-            <button type="button" className="elements__button-delete"></button>
-          </li> 
+          <Card card={card} />
         ))}
       </ul>
     </main>
