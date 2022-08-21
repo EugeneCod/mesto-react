@@ -94,42 +94,10 @@ function App() {
               <span className="editing-form__input-error editing-form__input-error_for_link"></span>
             </label>
           </PopupWithForm>
-        {/*   <PopupWithForm
-            title="Вы уверены?"
-            name="confirm"
-            isOpen={isConfirmPopupOpen}
-            onClose={closeAllPopups}
-          /> */}
           <ImagePopup
             onClose={closeAllPopups}
             card={selectedCard}
           />
-          {/*     
-          <div className="popup popup_contain_picture">
-            <div className="popup__container popup__container_contain_picture">
-              <button type="button" className="popup__close-button">
-                <img src={closeIcon} alt="Закрыть" className="popup__close-icon"/>
-              </button>
-              <img src="#" alt="" className="popup__image"/>
-              <p className="popup__image-caption"></p>
-            </div>
-          </div>
-          <div className="popup popup_contain_confirm">
-            <div className="popup__container popup__container_contain_confirm">
-              <button type="button" className="popup__close-button">
-                <img src={closeIcon} alt="Закрыть" className="popup__close-icon"/>
-              </button>
-              <form novalidate name="confirm" className="editing-form editing-form_related-to_confirm"
-                id="confirm" method="get">
-                <fieldset className="editing-form__fieldset" form="confirm">
-                  <legend className="editing-form__legend editing-form__legend_related-to_confirm">
-                    Вы уверены?
-                  </legend>
-                  <button type="submit" className="editing-form__button">Да</button>
-                </fieldset>
-              </form>
-            </div>
-          </div> */}
         </div>
       </div>
     </div>

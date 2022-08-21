@@ -1,4 +1,7 @@
-import { configApi } from './constants';
+const configApi = {
+  host: 'https://mesto.nomoreparties.co/v1/cohort-47',
+  token: 'fecf0c0a-0938-47a0-bc3a-dfac6e5ffd59'
+}
 
 class Api {
   constructor(configApi) {

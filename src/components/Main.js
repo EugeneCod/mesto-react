@@ -23,7 +23,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
       setCards(cardsData)
     })
     .catch(err => console.log(`${err} при первичной загрузке данных`));
-  }, [userName, userDescription, userAvatar])
+  }, [userName, userDescription, userAvatar, cards])
 
   return (
     <main className="content">
@@ -49,7 +49,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
       </section>
       <ul className="elements">
         {cards.map((card) => (
-          <Card card={card} onCardClick={onCardClick}/>
+          <Card key={card._id} card={card} onCardClick={onCardClick}/>
         ))}
       </ul>
     </main>

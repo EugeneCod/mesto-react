@@ -6,7 +6,7 @@ function Card({ card, onCardClick }) {
   }
 
   return (
-    <li key={card._id} className="elements__element">
+    <li className="elements__element">
       <div className="elements__image"
         style={{ backgroundImage: `url(${card.link})` }}
         onClick={handleClick}

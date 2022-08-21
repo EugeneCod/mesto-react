@@ -23,5 +23,3 @@ function PopupWithForm({ children, title, name, isOpen, onClose }) {
 }
 
 export default PopupWithForm
-
-// props.children
