@@ -1,10 +1,15 @@
 import React from 'react'
 
-function Card({ card }) {
+function Card({ card, onCardClick }) {
+  function handleClick() {
+    onCardClick(card);
+  }
+
   return (
     <li key={card._id} className="elements__element">
       <div className="elements__image"
         style={{ backgroundImage: `url(${card.link})` }}
+        onClick={handleClick}
       />
       <p className="elements__location">{card.name}</p>
       <div className="elements__button-like-container">

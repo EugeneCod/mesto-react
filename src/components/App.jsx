@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-// import iconDelete from '../images/elements__icon-delete.svg';
-// import iconLikeActive from '../images/elements__icon-like_active.svg';
-// import iconLikeDisabled from '../images/elements__icon-like_disabled.svg';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -12,6 +9,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIisEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState()
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -29,6 +27,11 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIisEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setSelectedCard()
+  }
+
+  function handleCardClick(card) {
+    setSelectedCard(card);
   }
 
   return (
@@ -42,6 +45,7 @@ function App() {
             onEditAvatar={handleEditAvatarClick}
             onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
+            onCardClick={handleCardClick}
           />
           <Footer />
           <PopupWithForm
@@ -90,16 +94,15 @@ function App() {
               <span className="editing-form__input-error editing-form__input-error_for_link"></span>
             </label>
           </PopupWithForm>
-          <PopupWithForm
+        {/*   <PopupWithForm
             title="Вы уверены?"
             name="confirm"
-            // isOpen={isAddPlacePopupOpen}
+            isOpen={isConfirmPopupOpen}
             onClose={closeAllPopups}
-          >
-          </PopupWithForm>
+          /> */}
           <ImagePopup
-            name={''}
-            link={''}
+            onClose={closeAllPopups}
+            card={selectedCard}
           />
           {/*     
           <div className="popup popup_contain_picture">

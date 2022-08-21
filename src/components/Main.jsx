@@ -4,12 +4,11 @@ import editIcon from '../images/profile__edit-icon.svg';
 import api from '../utils/api';
 import Card from './Card';
 
-function Main({onEditAvatar, onEditProfile, onAddPlace }) {
+function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
   const [userName, setUserName] = useState('');
   const [userDescription , setUserDescription ] = useState('');
   const [userAvatar, setUserAvatar] = useState('');
   const [cards, setCards] = useState([])
-  console.log(cards);
 
   React.useEffect(() => {
     Promise.all([
@@ -50,7 +49,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace }) {
       </section>
       <ul className="elements">
         {cards.map((card) => (
-          <Card card={card} />
+          <Card card={card} onCardClick={onCardClick}/>
         ))}
       </ul>
     </main>
