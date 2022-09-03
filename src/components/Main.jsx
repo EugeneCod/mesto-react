@@ -1,29 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { CurrentUserContext } from '../context/CurrentUserContext';
 import addIcon from '../images/profile__add-icon.svg';
 import editIcon from '../images/profile__edit-icon.svg';
 import api from '../utils/api';
 import Card from './Card';
 
 function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
-  const [userName, setUserName] = useState('');
-  const [userDescription , setUserDescription ] = useState('');
-  const [userAvatar, setUserAvatar] = useState('');
+
+  const currentUser = useContext(CurrentUserContext);
   const [cards, setCards] = useState([])
 
+  console.log(currentUser.name);
   useEffect(() => {
-    Promise.all([
-      api.getUserInfo(),
-      api.getCards(),
-    ])
-    .then(([userData, cardsData]) => {
-      setUserName(userData.name);
-      setUserDescription(userData.about);
-      setUserAvatar(userData.avatar);
-
-      setCards(cardsData)
-    })
-    .catch(err => console.log(`${err} при первичной загрузке данных`));
-  }, [userName, userDescription, userAvatar, cards])
+      api.getCards()
+    .then(res => setCards(res))
+    .catch(err => console.log(`${err} при загрузке карточек`));
+  }, [])
+  // cards
 
   return (
     <main className="content">
@@ -31,12 +24,12 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
         <div 
           className="profile__image-container"
           onClick={onEditAvatar}
-          style={{ backgroundImage: `url(${userAvatar})` }} 
+          style={{ backgroundImage: `url(${currentUser.avatar})` }} 
         >
         </div>
         <div className="profile__profile-info">
-          <h1 className="profile__name">{userName}</h1>
-          <p className="profile__about-self">{userDescription}</p>
+          <h1 className="profile__name">{currentUser.name}</h1>
+          <p className="profile__about-self">{currentUser.about}</p>
           <button onClick={onEditProfile} type="button" className="profile__edit-button">
             <img src={editIcon} alt="Редактировать профиль"
               className="profile__edit-icon"/>
@@ -47,7 +40,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
             className="profile__add-icon"/>
         </button>
       </section>
-      <ul className="elements">
+      <ul className="cards">
         {cards.map((card) => (
           <Card key={card._id} card={card} onCardClick={onCardClick}/>
         ))}

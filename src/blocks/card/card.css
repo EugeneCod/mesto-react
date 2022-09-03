@@ -1,14 +1,13 @@
-.elements__element {
+.card {
   background-color: #fff;
   display: grid;
-  /* grid-template-columns: 75% 25%; */
   grid-template-columns: 1fr 44px;
   border-radius: 10px;
   overflow: hidden;
   position: relative;
 }
 
-.elements__element::before {
+.card::before {
   content: '';
   position: absolute;
   top: 0;

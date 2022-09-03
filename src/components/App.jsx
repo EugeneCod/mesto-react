@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import api from '../utils/api';
+import { CurrentUserContext } from '../context/CurrentUserContext';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIisEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState({})
+  const [selectedCard, setSelectedCard] = useState({});
+  const [curentUser, setCurrentUser] = useState({});
+
+  useEffect(() => {
+    api.getUserInfo()
+    .then(res => setCurrentUser(res))
+    .catch(err => console.log(`${err} при получении данных о пользователе`))
+  }, [])
+
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -35,7 +45,10 @@ function App() {
   }
 
   return (
-    <div className="App" id="app">
+    <CurrentUserContext.Provider value={
+      curentUser
+    }>
+      <div className="App" id="app">
       <div className="wrapper">
         <div className="container container_for_header">
           <Header />
@@ -104,6 +117,7 @@ function App() {
         </div>
       </div>
     </div>
+    </CurrentUserContext.Provider>
   );
 }
 
