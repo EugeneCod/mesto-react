@@ -6,6 +6,7 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
 import { CurrentUserContext } from '../context/CurrentUserContext';
+import EditProfilePopup from './EditProfilePopup';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -13,13 +14,6 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [curentUser, setCurrentUser] = useState({});
-
-  useEffect(() => {
-    api.getUserInfo()
-    .then(res => setCurrentUser(res))
-    .catch(err => console.log(`${err} при получении данных о пользователе`))
-  }, [])
-
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -43,6 +37,18 @@ function App() {
   function handleCardClick(card) {
     setSelectedCard(card);
   }
+
+  function handleUpdateUser(userInfo) {
+    api.setUserInfo(userInfo)
+    .then(res => setCurrentUser(res))
+    closeAllPopups();
+  }
+
+  useEffect(() => {
+    api.getUserInfo()
+    .then(res => setCurrentUser(res))
+    .catch(err => console.log(`${err} при получении данных о пользователе`))
+  }, [])
 
   return (
     <CurrentUserContext.Provider value={
@@ -74,24 +80,11 @@ function App() {
               <span className="editing-form__input-error editing-form__input-error_for_avatar"></span>
             </label>
           </PopupWithForm>
-          <PopupWithForm
-            title="Редактировать профиль"
-            name="edit-profile"
-            buttonText="Сохранить"
+          <EditProfilePopup 
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
-          >
-            <label className="editing-form__field">
-              <input type="text" name="name" id="name" placeholder="Имя" required minLength="2" maxLength="40"
-                className="editing-form__input-line editing-form__input-line_assignment_user-name" />
-              <span className="editing-form__input-error editing-form__input-error_for_name"></span>
-            </label>
-            <label className="editing-form__field">
-              <input type="text" name="about" id="about-self" placeholder="О себе" required minLength="2" maxLength="200"
-                className="editing-form__input-line editing-form__input-line_assignment_about-self" />
-              <span className="editing-form__input-error editing-form__input-error_for_about-self"></span>
-            </label>
-          </PopupWithForm>
+            onUpdateUser={handleUpdateUser}
+          /> 
           <PopupWithForm
             title="Новое место"
             name="add-cards"
