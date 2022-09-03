@@ -10,13 +10,28 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
   const currentUser = useContext(CurrentUserContext);
   const [cards, setCards] = useState([])
 
-  console.log(currentUser.name);
   useEffect(() => {
       api.getCards()
     .then(res => setCards(res))
     .catch(err => console.log(`${err} при загрузке карточек`));
   }, [])
-  // cards
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    api.changeLikeCardStatus(isLiked, card._id)
+    .then((newCard) => {
+      setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+    })
+    .catch(err => console.log(`${err} при обновлении "лайка" карточки`));
+  }
+
+  function handleCardDelete(cardId) {
+    api.deleteCard(cardId)
+    .then(() => {
+      setCards((state) => state.filter((c) => c._id !== cardId))
+    })
+    .catch(err => console.log(`${err} при удалении карточки`));
+  }
 
   return (
     <main className="content">
@@ -42,7 +57,13 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
       </section>
       <ul className="cards">
         {cards.map((card) => (
-          <Card key={card._id} card={card} onCardClick={onCardClick}/>
+          <Card
+            key={card._id}
+            card={card}
+            onCardClick={onCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete ={handleCardDelete}
+          />
         ))}
       </ul>
     </main>

@@ -80,7 +80,7 @@ class Api {
     })
   }
 
-  toggleLike(isLiked, cardId) {
+  changeLikeCardStatus(isLiked, cardId) {
     let method;
     if (isLiked) {
       method = 'DELETE';
