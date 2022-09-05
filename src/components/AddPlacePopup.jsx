@@ -27,13 +27,13 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
         <input
           onChange={e => setName(e.target.value)}
           value={name}
-          type="text" 
-          name="name" 
-          id="location" 
-          placeholder="Название" 
-          required 
+          type="text"
+          name="name"
+          id="location"
+          placeholder="Название"
+          required
           minLength="2"
-          maxLength="30" 
+          maxLength="30"
           className="editing-form__input-line editing-form__input-line_assignment_location" />
         <span className="editing-form__input-error editing-form__input-error_for_location"></span>
       </label>
@@ -41,10 +41,10 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
         <input
           onChange={e => setLink(e.target.value)}
           value={link}
-          type="url" 
-          name="link" 
-          id="link" 
-          placeholder="Ссылка на картинку" 
+          type="url"
+          name="link"
+          id="link"
+          placeholder="Ссылка на картинку"
           required
           className="editing-form__input-line editing-form__input-line_assignment_link" />
         <span className="editing-form__input-error editing-form__input-error_for_link"></span>
