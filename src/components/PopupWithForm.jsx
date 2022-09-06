@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
-import { useState } from 'react';
 import closeIcon from '../images/popup__close-icon.svg';
 
 
 function PopupWithForm({ children, title, name, buttonText, isOpen, onClose, onSubmit }) {
-
-
 
   useEffect(() => {
     function handleEscClose(evt) {

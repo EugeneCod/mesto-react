@@ -8,12 +8,15 @@ import { CurrentUserContext } from '../context/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import PopupWithConfirmation from './PopupWithConfirmation';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIisEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isPopupWithConfirmOpen, setIsPopupWithConfirmOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
+  const [idDeletedCard, setIdDeletedCard] = useState('');
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([])
   const [isLoading, setIsLoading] = useState(false);
@@ -27,12 +30,22 @@ function App() {
       .catch(err => console.log(`${err} при обновлении "лайка" карточки`));
   }
 
-  function handleCardDelete(cardId) {
-    api.deleteCard(cardId)
+  function handleCardDelete() {
+    setIsLoading(true);
+    api.deleteCard(idDeletedCard)
       .then(() => {
-        setCards((state) => state.filter((c) => c._id !== cardId))
+        setCards((state) => state.filter((c) => c._id !== idDeletedCard))
+        closeAllPopups();
       })
-      .catch(err => console.log(`${err} при удалении карточки`));
+      .catch(err => console.log(`${err} при удалении карточки`))
+      .finally(() => {
+        setIsLoading(false);
+      })
+  }
+
+  function handleCardDeleteIconClick(cardId) {
+    setIdDeletedCard(cardId);
+    setIsPopupWithConfirmOpen(true);
   }
 
   function handleEditAvatarClick() {
@@ -51,6 +64,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIisEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsPopupWithConfirmOpen(false);
     setSelectedCard({})
   }
 
@@ -66,7 +80,7 @@ function App() {
         closeAllPopups();
       })
       .catch(err => console.log(`${err} при обновлении данных о пользователе`))
-      .finally(()=> {
+      .finally(() => {
         setIsLoading(false);
       })
   }
@@ -79,7 +93,7 @@ function App() {
         closeAllPopups();
       })
       .catch(err => console.log(`${err} при обновлении аватара пользователя`))
-      .finally(()=> {
+      .finally(() => {
         setIsLoading(false);
       })
   }
@@ -92,7 +106,7 @@ function App() {
         closeAllPopups();
       })
       .catch(err => console.log(`${err} при добавлении карточки`))
-      .finally(()=> {
+      .finally(() => {
         setIsLoading(false);
       })
   }
@@ -122,8 +136,7 @@ function App() {
             <Main
               cards={cards}
               onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
-
+              onCardDelete={handleCardDeleteIconClick}
               onEditAvatar={handleEditAvatarClick}
               onEditProfile={handleEditProfileClick}
               onAddPlace={handleAddPlaceClick}
@@ -146,7 +159,13 @@ function App() {
               isOpen={isAddPlacePopupOpen}
               onClose={closeAllPopups}
               onAddPlace={handleAddPlaceSubmit}
-              buttonText={!isLoading ? "Создать" : "Сохранение..."}
+              buttonText={!isLoading ? "Создать" : "Создание..."}
+            />
+            <PopupWithConfirmation
+              isOpen={isPopupWithConfirmOpen}
+              onClose={closeAllPopups}
+              onConfirm={handleCardDelete}
+              buttonText={!isLoading ? "Да" : "Выполнение..."}
             />
             <ImagePopup
               onClose={closeAllPopups}

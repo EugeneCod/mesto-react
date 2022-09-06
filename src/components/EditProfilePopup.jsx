@@ -16,6 +16,8 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, buttonText }) {
       name,
       about: description,
     });
+    setName('');
+    description('')
   }
 
   useEffect(() => {
