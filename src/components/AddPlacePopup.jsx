@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PopupWithForm from './PopupWithForm';
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace, buttonText }) {
 
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
@@ -18,7 +18,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
     <PopupWithForm
       title="Новое место"
       name="add-cards"
-      buttonText="Создать"
+      buttonText={buttonText}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}

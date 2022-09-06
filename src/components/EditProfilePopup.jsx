@@ -3,7 +3,7 @@ import { CurrentUserContext } from '../context/CurrentUserContext';
 import PopupWithForm from './PopupWithForm';
 
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser, buttonText }) {
 
   const currentUser = useContext(CurrentUserContext);
 
@@ -27,7 +27,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     <PopupWithForm
       title="Редактировать профиль"
       name="edit-profile"
-      buttonText="Сохранить"
+      buttonText={buttonText}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
@@ -37,7 +37,8 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
           onChange={e => setName(e.target.value)}
           value={name}
           type="text"
-          name="name" id="name"
+          name="name"
+          id="name"
           placeholder="Имя"
           required minLength="2"
           maxLength="40"

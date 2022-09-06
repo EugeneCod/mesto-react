@@ -16,6 +16,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([])
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
@@ -58,31 +59,42 @@ function App() {
   }
 
   function handleUpdateUser(userInfo) {
+    setIsLoading(true);
     api.setUserInfo(userInfo)
       .then(userData => {
         setCurrentUser(userData)
         closeAllPopups();
       })
       .catch(err => console.log(`${err} при обновлении данных о пользователе`))
-
+      .finally(()=> {
+        setIsLoading(false);
+      })
   }
 
   function handleUpdateAvatar(avatarInfo) {
+    setIsLoading(true);
     api.setAvatar(avatarInfo)
       .then(userData => {
         setCurrentUser(userData);
         closeAllPopups();
       })
       .catch(err => console.log(`${err} при обновлении аватара пользователя`))
+      .finally(()=> {
+        setIsLoading(false);
+      })
   }
 
   function handleAddPlaceSubmit(cardsData) {
+    setIsLoading(true);
     api.addCard(cardsData)
       .then(newCard => {
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
       .catch(err => console.log(`${err} при добавлении карточки`))
+      .finally(()=> {
+        setIsLoading(false);
+      })
   }
 
   useEffect(() => {
@@ -122,16 +134,19 @@ function App() {
               isOpen={isEditAvatarPopupOpen}
               onClose={closeAllPopups}
               onUpdateAvatar={handleUpdateAvatar}
+              buttonText={!isLoading ? "Сохранить" : "Сохранение..."}
             />
             <EditProfilePopup
               isOpen={isEditProfilePopupOpen}
               onClose={closeAllPopups}
               onUpdateUser={handleUpdateUser}
+              buttonText={!isLoading ? "Сохранить" : "Сохранение..."}
             />
             <AddPlacePopup
               isOpen={isAddPlacePopupOpen}
               onClose={closeAllPopups}
               onAddPlace={handleAddPlaceSubmit}
+              buttonText={!isLoading ? "Создать" : "Сохранение..."}
             />
             <ImagePopup
               onClose={closeAllPopups}
