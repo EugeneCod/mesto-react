@@ -85,11 +85,13 @@ function App() {
       })
   }
 
-  function handleUpdateAvatar(avatarInfo) {
+  function handleUpdateAvatar(avatarInfo, input, setInputValid) {
     setIsLoading(true);
     api.setAvatar(avatarInfo)
       .then(userData => {
         setCurrentUser(userData);
+        input.value = '';
+        setInputValid({avatar: false})
         closeAllPopups();
       })
       .catch(err => console.log(`${err} при обновлении аватара пользователя`))
@@ -98,11 +100,13 @@ function App() {
       })
   }
 
-  function handleAddPlaceSubmit(cardsData) {
+  function handleAddPlaceSubmit(cardsData, setInputValues, setInputValid) {
     setIsLoading(true);
     api.addCard(cardsData)
       .then(newCard => {
         setCards([newCard, ...cards]);
+        setInputValues({});
+        setInputValid({name: false, link: false});
         closeAllPopups();
       })
       .catch(err => console.log(`${err} при добавлении карточки`))

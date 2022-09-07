@@ -1,37 +1,55 @@
-import React, { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import PopupWithForm from './PopupWithForm';
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, buttonText }) {
 
   const inputRef = useRef()
+  const [errMessage, setErrMessage] = useState('');
+  const [formValid, setFormValid] = useState(false);
+  const [inputValid, setInputValid] = useState({avatar: false})
 
   function handleSubmit(evt) {
     evt.preventDefault();
     onUpdateAvatar({
       avatar: inputRef.current.value,
-    });
-    inputRef.current.value = '';
+    }, 
+      inputRef.current,
+      setInputValid);
   }
+
+  function handleChange(e) {
+    setErrMessage(e.target.validationMessage);
+    setInputValid({avatar: e.target.validity.valid})
+  }
+
+  useEffect(() => {
+    if (inputValid.avatar === false) {
+      setFormValid(false);
+    } else {
+      setFormValid(true);
+    }
+  }, [inputValid, formValid])
 
   return (
     <PopupWithForm
       title="Обновить аватар"
       name="edit-avatar"
       buttonText={buttonText}
+      valid={formValid}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
     >
       <label className="editing-form__field">
         <input
+          onChange={handleChange}
           ref={inputRef}
           type="url"
           name="avatar"
-          id="avatar"
           placeholder="Ссылка на картинку"
           required
-          className="editing-form__input-line editing-form__input-line_assignment_avatar" />
-        <span className="editing-form__input-error editing-form__input-error_for_avatar"></span>
+          className="editing-form__input-line" />
+        <span className="editing-form__input-error">{errMessage}</span>
       </label>
     </PopupWithForm>
   )
