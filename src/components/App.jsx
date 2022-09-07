@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -85,13 +85,11 @@ function App() {
       })
   }
 
-  function handleUpdateAvatar(avatarInfo, input, setInputValid) {
+  function handleUpdateAvatar(avatarInfo) {
     setIsLoading(true);
     api.setAvatar(avatarInfo)
       .then(userData => {
         setCurrentUser(userData);
-        input.value = '';
-        setInputValid({avatar: false})
         closeAllPopups();
       })
       .catch(err => console.log(`${err} при обновлении аватара пользователя`))
@@ -100,13 +98,11 @@ function App() {
       })
   }
 
-  function handleAddPlaceSubmit(cardsData, setInputValues, setInputValid) {
+  function handleAddPlaceSubmit(cardsData) {
     setIsLoading(true);
     api.addCard(cardsData)
       .then(newCard => {
         setCards([newCard, ...cards]);
-        setInputValues({});
-        setInputValid({name: false, link: false});
         closeAllPopups();
       })
       .catch(err => console.log(`${err} при добавлении карточки`))

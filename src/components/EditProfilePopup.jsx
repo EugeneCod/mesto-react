@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { CurrentUserContext } from '../context/CurrentUserContext';
 import { useForm } from '../hooks/useForm';
 import Input from './Input';
@@ -9,9 +9,10 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, buttonText }) {
 
   const currentUser = useContext(CurrentUserContext);
 
-  const {values, setValues, handleChange} = useForm({});
+  const { values, setValues, handleChange } = useForm({});
   const [formValid, setFormValid] = useState(true);
-  const [inputValid, setInputValid] = useState({name: true, link: true})
+  const [inputValid, setInputValid] = useState({ name: true, about: true })
+  const [errMessages, setErrMessages] = useState({ name: '', about: '' });
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -23,7 +24,9 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, buttonText }) {
       name: currentUser.name || '',
       about: currentUser.about || '',
     })
-  }, [currentUser])
+    setInputValid({ name: true, about: true });
+    setErrMessages({ name: '', about: '' })
+  }, [currentUser, isOpen])
 
   useEffect(() => {
     if (inputValid.name === false || inputValid.about === false) {
@@ -43,7 +46,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, buttonText }) {
       onClose={onClose}
       onSubmit={handleSubmit}
     >
-      <Input 
+      <Input
         value={values.name || ''}
         onChange={handleChange}
         type="text"
@@ -53,8 +56,10 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, buttonText }) {
         maxLength="40"
         inputValid={inputValid}
         setInputValid={setInputValid}
+        errMessages={errMessages}
+        setErrMessage={setErrMessages}
       />
-      <Input 
+      <Input
         value={values.about || ''}
         onChange={handleChange}
         type="text"
@@ -64,6 +69,8 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, buttonText }) {
         maxLength="200"
         inputValid={inputValid}
         setInputValid={setInputValid}
+        errMessages={errMessages}
+        setErrMessage={setErrMessages}
       />
     </PopupWithForm>
   )

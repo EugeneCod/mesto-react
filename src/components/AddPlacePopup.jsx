@@ -5,13 +5,14 @@ import PopupWithForm from './PopupWithForm';
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace, buttonText }) {
 
-  const {values, setValues, handleChange} = useForm({});
+  const { values, setValues, handleChange } = useForm({});
   const [formValid, setFormValid] = useState(false);
-  const [inputValid, setInputValid] = useState({name: false, link: false})
-
+  const [inputValid, setInputValid] = useState({ name: false, link: false })
+  const [errMessages, setErrMessages] = useState({name: '', link: ''});
+  
   function handleSubmit(evt) {
     evt.preventDefault();
-    onAddPlace( values, setValues, setInputValid );
+    onAddPlace(values);
   }
 
   useEffect(() => {
@@ -21,7 +22,13 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, buttonText }) {
       setFormValid(true);
     }
   }, [inputValid, formValid])
-  
+
+  useEffect(() => {
+    setValues({});
+    setInputValid({ name: false, link: false });
+    setErrMessages({name: '', link: ''})
+  }, [isOpen])
+
   return (
     <PopupWithForm
       title="Новое место"
@@ -32,7 +39,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, buttonText }) {
       onClose={onClose}
       onSubmit={handleSubmit}
     >
-      <Input 
+      <Input
         value={values.name || ''}
         onChange={handleChange}
         type="text"
@@ -42,8 +49,10 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, buttonText }) {
         maxLength="30"
         inputValid={inputValid}
         setInputValid={setInputValid}
+        errMessages={errMessages}
+        setErrMessage={setErrMessages}
       />
-      <Input 
+      <Input
         value={values.link || ''}
         onChange={handleChange}
         type="url"
@@ -53,6 +62,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, buttonText }) {
         maxLength=""
         inputValid={inputValid}
         setInputValid={setInputValid}
+        errMessages={errMessages}
+        setErrMessage={setErrMessages}
       />
     </PopupWithForm>
   )

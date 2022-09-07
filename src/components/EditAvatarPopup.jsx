@@ -12,9 +12,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, buttonText }) {
     evt.preventDefault();
     onUpdateAvatar({
       avatar: inputRef.current.value,
-    }, 
-      inputRef.current,
-      setInputValid);
+    });
   }
 
   function handleChange(e) {
@@ -29,6 +27,12 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, buttonText }) {
       setFormValid(true);
     }
   }, [inputValid, formValid])
+
+  useEffect(() => {
+    inputRef.current.value = '';
+    setErrMessage('');
+    setInputValid({avatar: false});
+  }, [isOpen])
 
   return (
     <PopupWithForm

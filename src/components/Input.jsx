@@ -1,13 +1,8 @@
-import { useState } from 'react'
-
-
-function Input({ value, onChange, type, name, placeholder, minLength, maxLength, inputValid, setInputValid }) {
-
-  const [errMessage, setErrMessage] = useState('');
+function Input({ value, onChange, type, name, placeholder, minLength, maxLength, inputValid, setInputValid, errMessages, setErrMessage }) {
 
   function handleChange(e) {
     onChange(e);
-    setErrMessage(e.target.validationMessage);
+    setErrMessage({...errMessages, [name]: e.target.validationMessage});
     setInputValid({...inputValid, [name]: e.target.validity.valid})
   }
 
@@ -23,7 +18,7 @@ function Input({ value, onChange, type, name, placeholder, minLength, maxLength,
           minLength={minLength}
           maxLength={maxLength}
           className="editing-form__input-line" />
-        <span className="editing-form__input-error">{errMessage}</span>
+        <span className="editing-form__input-error">{errMessages[name]}</span>
       </label>
   )
 }

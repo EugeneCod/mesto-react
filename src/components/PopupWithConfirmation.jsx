@@ -1,4 +1,3 @@
-import React from 'react'
 import PopupWithForm from './PopupWithForm'
 
 function PopupWithConfirmation({isOpen, onClose, onConfirm, buttonText}) {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import closeIcon from '../images/popup__close-icon.svg';
 
 
